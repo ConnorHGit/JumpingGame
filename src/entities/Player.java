@@ -29,7 +29,7 @@ public class Player extends Entity{
 		return super.getX() - Game.g.xOffset;
 	}
 	public void changeX(int deltaX){
-		if((getdX() < 0 && Game.g.xOffset >= 0 )|| x < Game.g.getWidth() / 2 - width / 2){
+		if((getdX() < 0 && Game.g.xOffset >= 0 )|| Math.abs(x - (Game.g.getWidth() / 2 - width / 2)) > 20  || Math.abs(Game.g.xOffset) + x > Game.g.levelSize.getWidth() - Game.g.getWidth() / 2 - width / 2 && Game.g.xOffset <= 0){
 			x += deltaX;
 		}
 		else{
@@ -49,7 +49,8 @@ public class Player extends Entity{
 				movingGroundDy = ((MovingEnvironment)getGround()).getdY();
 			}
 		}
-		if((getdX() + movingGroundDx < 0 && Game.g.xOffset >= 0 )|| x < Game.g.getWidth() / 2 - width / 2){
+        //Edge of map
+		if((getdX() + movingGroundDx < 0 && Game.g.xOffset >= 0 )|| Math.abs(x - (Game.g.getWidth() / 2 - width / 2)) > 20  || (Math.abs(Game.g.xOffset) + x > Game.g.levelSize.getWidth() - Game.g.getWidth() / 2 - width / 2 && Game.g.xOffset <= 0)){
 			x += getdX() + movingGroundDx;
 			if(collision(0)){
 				x -= getdX() + movingGroundDx;
@@ -82,4 +83,12 @@ public class Player extends Entity{
 		Sound.playSound(Game.getResource("sound/sounds/ItemPickup.wav"));
 		coins += i;
 	}
+    @Override
+    public boolean collision(int coord){
+        if(!Game.g.noclip){
+            return super.collision(coord);
+        }
+        boolean onGround = Game.g.environment.get(0).collide(this,coord);
+        if(onGround)setGround(Game.g.environment.get(0));return onGround;
+    }
 }

@@ -35,13 +35,25 @@ public class WaitingPlatform extends MovingPlatform{
 			started = false;
 			setdX(0);
 		}
-		if (y < yLimit2){
-			setdY(getdY() * -1);
-		}
-		else if(y > yLimit1 && waitDy < 0){
-			System.out.println("ASd");
-			started = false;
-			setdY(0);
-		}
+        if(waitDy > 0){
+            if(y > xLimit2){
+                System.out.println(0);
+                setdY(getdY() * -1);
+            }else if(y < yLimit1){
+                System.out.println(1);
+                started = false;
+                setdY(0);
+            }
+        }else if(waitDy < 0){
+            if (y < yLimit1){
+                System.out.println(2);
+                setdY(getdY() * -1);
+            }
+            else if(y > yLimit2){
+                System.out.println(3);
+                started = false;
+                setdY(0);
+            }
+        }
 	}
 }

@@ -1,32 +1,19 @@
 package game;
 
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Image;
+import entities.Entity;
+import entities.Player;
+import environment.*;
+import menu.AbstractMenu;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import javax.imageio.ImageIO;
-import javax.swing.JFrame;
-
-import menu.AbstractMenu;
-import entities.Entity;
-import entities.Player;
-import environment.BaseEnvironment;
-import environment.Coin;
-import environment.Ground;
-import environment.MovingPlatform;
-import environment.Platform;
-import environment.WaitingPlatform;
-import graphics.Images;
 
 public class Game extends JFrame {
 	/**
@@ -36,10 +23,11 @@ public class Game extends JFrame {
 	private static final long serialVersionUID = 7059646278559620203L;
 	public ArrayList<BaseEnvironment> environment = new ArrayList<BaseEnvironment>();
 	public ArrayList<Entity> entities = new ArrayList<Entity>();
-	private Dimension levelSize;
+	public Dimension levelSize;
 	public boolean aPressed;
 	public boolean sPressed;
 	public boolean dPressed;
+    public boolean noclip;
 	public double xOffset;
 	public boolean gameStarted;
 	private Image background;
@@ -104,6 +92,9 @@ public class Game extends JFrame {
 				case KeyEvent.VK_ESCAPE:
 					AbstractMenu.main.openMenu();
 					gameStarted = false;
+                    break;
+                case KeyEvent.VK_N:
+                    noclip = !noclip;
 				}
 			}
 		});
@@ -146,6 +137,10 @@ public class Game extends JFrame {
 				gBuffer.drawString(String.valueOf((int)entities.get(0).getX()), 25, 100);
 				gBuffer.drawString(String.valueOf((int)entities.get(0).getY()),75,100);
 			}
+            if(noclip){
+                gBuffer.setColor(Color.ORANGE);
+                gBuffer.drawString("NOCLIP",100,100);
+            }
 			g.drawImage(dBuffer, 0, 0, null);
 		} else {
 			super.paint(g);

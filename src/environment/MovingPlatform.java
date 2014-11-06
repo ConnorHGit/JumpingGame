@@ -30,10 +30,10 @@ public class MovingPlatform extends MovingEnvironment {
 		super.friction = 0.2;
 		this.setdX(dX);
 		this.setdY(dY);
-		this.xLimit1 = xLimit1;
-		this.xLimit2 = xLimit2;
-		this.yLimit1 = yLimit1;
-		this.yLimit2 = yLimit2;
+		this.xLimit1 = Math.min(xLimit1,xLimit2);
+		this.xLimit2 = Math.max(xLimit1,xLimit2);
+		this.yLimit1 = Math.min(yLimit1,yLimit2);
+		this.yLimit2 = Math.max(yLimit1,yLimit2);
 	}
 
 	@Override
